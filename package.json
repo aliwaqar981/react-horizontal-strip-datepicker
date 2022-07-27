@@ -6,8 +6,8 @@
   "author": "Abhilash Shukla",
   "private": false,
   "engines": {
-    "node": "  13.2.0",
-    "npm": "6.13.4"
+    "node": "16.14.0",
+    "npm": "8.3.1"
   },
   "keywords": [
     "react",
