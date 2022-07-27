@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Waypoint } from "react-waypoint";
-import "./ReactHorizontalDatePicker.css";
+import React, { useState, useEffect } from 'react';
+import { Waypoint } from 'react-waypoint';
+import './ReactHorizontalDatePicker.css';
 import {
   format,
   addWeeks,
@@ -9,13 +9,13 @@ import {
   subDays,
   isSameDay,
   isBefore,
-  getDate
-} from "date-fns";
+  getDate,
+} from 'date-fns';
 
 export default React.memo(function ReactHorizontalDatePicker({
   enableDays,
   enableScroll,
-  selectedDay
+  selectedDay,
 }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [headingDate, setHeadingDate] = useState(new Date());
@@ -24,40 +24,40 @@ export default React.memo(function ReactHorizontalDatePicker({
   const scrollWidth = 250;
   enableScroll = enableScroll || false;
   enableDays = enableScroll === true ? enableDays || 90 : 7;
-  const heading_dateFormat = "MMM yyyy";
+  const heading_dateFormat = 'MMM yyyy';
 
   useEffect(() => {
     console.log(headingDate);
   }, [headingDate]);
 
-  const applyStyles = day => {
+  const applyStyles = (day) => {
     const classes = [];
     if (isSameDay(day, selectedDate)) {
-      classes.push(" date-day-Item-selected");
+      classes.push(' date-day-Item-selected');
     }
 
     if (isBefore(day, currentDate)) {
-      classes.push(" date-day-item-disabled");
+      classes.push(' date-day-item-disabled');
     }
-    return classes.join(" ");
+    return classes.join(' ');
   };
 
   const _handlePosition = (pos, date) => {
     let currentPosition = pos.currentPosition;
     let previousPosition = pos.previousPosition;
 
-    if (previousPosition == "inside" && currentPosition == "above") {
+    if (previousPosition == 'inside' && currentPosition == 'above') {
       setHeadingDate(date);
     }
-    if (previousPosition == "above" && currentPosition == "inside") {
+    if (previousPosition == 'above' && currentPosition == 'inside') {
       setHeadingDate(addDays(date, -1));
     }
   };
 
   const _verticalList = () => {
-    const _dayFormat = "E";
-    const _dateFormat = "dd";
-    const _monthFormat = "MMM";
+    const _dayFormat = 'E';
+    const _dateFormat = 'dd';
+    const _monthFormat = 'MMM';
     const _verticalListItems = [];
     const _startDay = subDays(currentWeek, 1);
 
@@ -70,17 +70,17 @@ export default React.memo(function ReactHorizontalDatePicker({
         <Waypoint
           key={i}
           horizontal={true}
-          onPositionChange={pos =>
-            _date == 1 ? _handlePosition(pos, addDays(_startDay, i)) : ""
+          onPositionChange={(pos) =>
+            _date == 1 ? _handlePosition(pos, addDays(_startDay, i)) : ''
           }
         >
-          <div className="wrapper">
+          <div className='wrapper'>
             {format(addDays(_startDay, i), _dateFormat) == 1 ? (
-              <div className="scroll-head">
-                {format(addDays(_startDay, i), "MMM")}
+              <div className='scroll-head'>
+                {format(addDays(_startDay, i), 'MMM')}
               </div>
             ) : (
-              <div className="blank-space-div"></div>
+              <div className='blank-space-div'></div>
             )}
             <div
               className={`datepicker-date-day-Item wrapper ${applyStyles(
@@ -88,8 +88,8 @@ export default React.memo(function ReactHorizontalDatePicker({
               )}`}
               onClick={() => onDateClick(addDays(_startDay, i))}
             >
-              <div className="datepicker-day-label ">{_day}</div>
-              <div className="datepicker-date-label ripple ">{_date}</div>
+              <div className='datepicker-day-label '>{_day}</div>
+              <div className='datepicker-date-label ripple '>{_date}</div>
             </div>
           </div>
         </Waypoint>
@@ -98,11 +98,11 @@ export default React.memo(function ReactHorizontalDatePicker({
 
     return (
       <div
-        id="container"
+        id='container'
         className={
           enableScroll === true
-            ? " datepicker-datelist-scrollable"
-            : " datepicker-dateList"
+            ? ' datepicker-datelist-scrollable'
+            : ' datepicker-dateList'
         }
       >
         {_verticalListItems}
@@ -110,45 +110,45 @@ export default React.memo(function ReactHorizontalDatePicker({
     );
   };
 
-  const onDateClick = day => {
+  const onDateClick = (day) => {
     setSelectedDate(day);
-    selectedDay(selectedDate);
+    selectedDay(day);
   };
 
   const nextScroll = () => {
     enableScroll
-      ? (document.getElementById("container").scrollLeft += scrollWidth)
+      ? (document.getElementById('container').scrollLeft += scrollWidth)
       : setCurrentWeek(addWeeks(currentWeek, 1));
   };
 
   const prevScroll = () => {
     enableScroll
-      ? (document.getElementById("container").scrollLeft -= scrollWidth)
+      ? (document.getElementById('container').scrollLeft -= scrollWidth)
       : setCurrentWeek(subWeeks(currentWeek, 1));
   };
 
   return (
-    <div className="datepicker-strip">
-      <span className="datepicker-month-label ">
-        {format(selectedDate, "dd MMM yyy")}
+    <div className='datepicker-strip'>
+      <span className='datepicker-month-label '>
+        {format(selectedDate, 'dd MMM yyy')}
       </span>
-      <div className="datepicker">
-        <div className="wrapper">
-          <div className="scroll-head">{format(headingDate, "MMM")}</div>
-          <div className="button-previous">
-            {" "}
-            <button className="datepicker-button-previous" onClick={prevScroll}>
+      <div className='datepicker'>
+        <div className='wrapper'>
+          <div className='scroll-head'>{format(headingDate, 'MMM')}</div>
+          <div className='button-previous'>
+            {' '}
+            <button className='datepicker-button-previous' onClick={prevScroll}>
               &#10132;
             </button>
           </div>
         </div>
         {_verticalList()}
-        <div className="wrapper">
-          <div className="blank-space-div"></div>
+        <div className='wrapper'>
+          <div className='blank-space-div'></div>
 
-          <div className="button-previous">
-            {" "}
-            <button className="datepicker-button-next" onClick={nextScroll}>
+          <div className='button-previous'>
+            {' '}
+            <button className='datepicker-button-next' onClick={nextScroll}>
               &#10132;
             </button>
           </div>
